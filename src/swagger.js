@@ -28,6 +28,10 @@ const swaggerDocument = {
     },
     servers: [
         {
+            url: 'https://recepyai-owk3bf2dl-zohaibsaeed1102s-projects.vercel.app',
+            description: 'Production server (Vercel)',
+        },
+        {
             url: 'http://localhost:5000',
             description: 'Local server',
         },
