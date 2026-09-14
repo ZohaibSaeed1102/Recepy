@@ -1,0 +1,11 @@
+
+/node_modules
+.env
+
+implementation_plan.md
+
+/implementation_plan.md
+node_modules
+/.env
+
+

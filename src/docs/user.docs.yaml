@@ -1,0 +1,115 @@
+paths:
+  /api/auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register a new user or admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+              properties:
+                name:
+                  type: string
+                  example: "John Doe"
+                email:
+                  type: string
+                  example: "john@example.com"
+                password:
+                  type: string
+                  example: "secret123"
+                role:
+                  type: string
+                  enum: [user, admin]
+                  example: "user"
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Bad request
+
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login user and get token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: "john@example.com"
+                password:
+                  type: string
+                  example: "secret123"
+      responses:
+        '200':
+          description: Successful login
+        '401':
+          description: Invalid credentials
+
+  /api/user/recipes:
+    get:
+      tags:
+        - User
+      summary: Get all recipes or search by name/description
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Keyword to search in name or description
+      responses:
+        '200':
+          description: List of recipes
+        '401':
+          description: Unauthorized
+
+  /api/user/recipes/{id}/chat:
+    post:
+      tags:
+        - User
+      summary: Chat with AI about a specific recipe
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The Recipe ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - question
+              properties:
+                question:
+                  type: string
+                  example: "How long should I marinate the chicken?"
+      responses:
+        '200':
+          description: AI response
+        '401':
+          description: Unauthorized
+        '404':
+          description: Recipe not found

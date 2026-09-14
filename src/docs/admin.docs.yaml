@@ -1,0 +1,74 @@
+paths:
+  /api/admin/recipes/generate:
+    post:
+      tags:
+        - Admin
+      summary: Generate a recipe preview using AI
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - description
+              properties:
+                name:
+                  type: string
+                  example: "Chicken Tikka"
+                description:
+                  type: string
+                  example: "Spicy and tender chicken tikka cooked on skewers."
+      responses:
+        '200':
+          description: Recipe generated successfully
+        '400':
+          description: Validation error
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden (Admin only)
+
+  /api/admin/recipes/approve:
+    post:
+      tags:
+        - Admin
+      summary: Approve and save generated recipe
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - description
+                - ingredients
+                - instructions
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                ingredients:
+                  type: array
+                  items:
+                    type: string
+                instructions:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Recipe saved successfully
+        '400':
+          description: Validation error
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden (Admin only)
